@@ -61,6 +61,8 @@
 
 <script>
 import ReusableInput from './reusableInput.vue'
+import * as CryptoJS from 'crypto-js';
+
 export default {
     name: 'SavePass',
     data() {
@@ -75,14 +77,26 @@ export default {
         presentLabels : [{"checked" : false,"value":"Bank"},{"checked" : false,"value":"Email"},{"checked" : false,"value":"Social Network"},{"checked" : false,"value":"Other"}],
         items: [],
         add_label : false,
-        labelNameToInsert : ''
+        labelNameToInsert : '',
+        myPassword : 'Password@1'
 
       }
   },
   
   methods: {
     saveData(){
-      console.log("Form submitted",this.dataModelToSave);
+      const encrypted = CryptoJS.AES.encrypt(JSON.stringify(this.dataModelToSave), this.myPassword);
+      
+      console.log("Encrypted :: ",encrypted.toString());
+
+      const decrypted = CryptoJS.AES.decrypt(encrypted.toString(), this.myPassword);
+
+      console.log("Decrypted :: ",decrypted.toString(CryptoJS.enc.Utf8));
+
+      const jsonToSave = {};
+      jsonToSave.id = this.dataModelToSave.domain;
+      jsonToSave.value = encrypted.toString(); 
+      console.log("Form submitted",jsonToSave);
 
     },
     insertLabel(){
