@@ -1,8 +1,8 @@
 {
-  "name": "vue-chrome-extension-template",
+  "name": "pass-keeper-chrome",
   "version": "0.0.1",
-  "description": "vue.js chrome extension template (wcer)",
-  "author": "works.yura@gmail.com",
+  "description": "pass-keeper-chrome chrome extension",
+  "author": "pass-keeper-chrome@gmail.com",
   "license": "MIT",
   "private": false,
   "dependencies": {
@@ -11,6 +11,7 @@
     "element-ui": "^2.0.1",
     "lodash": "^4.17.4",
     "vue": "^2.5.2",
+    "vue-json-pretty": "^1.4.1-beta.1",
     "vue-meta": "^1.2.0",
     "vue-pouch": "^0.0.22",
     "vue-router": "^3.0.1",

@@ -2,7 +2,9 @@ export default {
   get (key) {
     try {
       return JSON.parse(localStorage.getItem(key))
-    } catch (e) {}
+    } catch (e) {
+      return null;
+    }
   },
   set (key, val) {
     try {

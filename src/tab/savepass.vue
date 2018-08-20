@@ -15,6 +15,7 @@
           <mt-input placeholder="Domain" inputSize="large" v-model="dataModelToSave.domain" isFlag></mt-input>
           <mt-input placeholder="Username" inputSize="large" v-model="dataModelToSave.username" isFlag></mt-input>
           <mt-input placeholder="Password" inputSize="large" v-model="dataModelToSave.password" isFlag></mt-input>
+          <textarea placeholder="Description" class="app_textarea" v-model="dataModelToSave.description" isFlag></textarea>
           <component v-for="item in items" ref="itemRefs" :is="item" :key="item.name"></component>
         <div class="row" >
           <div class="custom_label_container" >
@@ -60,72 +61,72 @@
 </template>
 
 <script>
-import ReusableInput from './reusableInput.vue'
-import * as CryptoJS from 'crypto-js';
+import ReusableInput from "./reusableInput.vue";
+import CredDao from "../ext/credDao";
+import CredLabels from "../ext/credLabels";
 
 export default {
-    name: 'SavePass',
-    data() {
-      return {
-        dataModelToSave : {
-        domain: '',
-        username: '',
-        password: '',
-        extraKeyVal : [],
-        selectedLabels : [],
-        },
-        presentLabels : [{"checked" : false,"value":"Bank"},{"checked" : false,"value":"Email"},{"checked" : false,"value":"Social Network"},{"checked" : false,"value":"Other"}],
-        items: [],
-        add_label : false,
-        labelNameToInsert : '',
-        myPassword : 'Password@1'
-
-      }
+  name: "SavePass",
+  data() {
+    return {
+      dataModelToSave: {
+        domain: "",
+        username: "",
+        password: "",
+        description: "",
+        extraKeyVal: [],
+        selectedLabels: []
+      },
+      presentLabels: [],
+      items: [],
+      add_label: false,
+      labelNameToInsert: ""
+    };
   },
-  
+
   methods: {
-    saveData(){
-      const encrypted = CryptoJS.AES.encrypt(JSON.stringify(this.dataModelToSave), this.myPassword);
-      
-      console.log("Encrypted :: ",encrypted.toString());
+    saveData() {
+      const credDao = new CredDao("Password@1");
 
-      const decrypted = CryptoJS.AES.decrypt(encrypted.toString(), this.myPassword);
-
-      console.log("Decrypted :: ",decrypted.toString(CryptoJS.enc.Utf8));
-
-      const jsonToSave = {};
-      jsonToSave.id = this.dataModelToSave.domain;
-      jsonToSave.value = encrypted.toString(); 
-      console.log("Form submitted",jsonToSave);
+      const encrypted = credDao.encryptData(this.dataModelToSave);
+      console.log("Encrypted :: ", encrypted);
+      credDao.saveCredentail(this.dataModelToSave.domain, encrypted);
+    },
+    insertLabel() {
+      const newLabel = { checked: false, value: "" + this.labelNameToInsert };
+      this.presentLabels.push(newLabel);
+    },
+    initWorks(){
 
     },
-    insertLabel(){
-      const newLabel = {"checked" : false,"value": ""+this.labelNameToInsert};
-      this.presentLabels.push(newLabel);  
-    },
-    addLabel(){
+    addLabel() {
+      const credLabels = new CredLabels();
+      this.presentLabels = credLabels.getAll();
       this.add_label = true;
     },
-    addComponent () {
+    addComponent() {
       const renderComponent = {
-        render (h) {         
+        render(h) {
           return h(ReusableInput, {
-            class: ['foo'],
-            
-            props: { 
-              name: 'Foo'
+            class: ["foo"],
+
+            props: {
+              name: "Foo"
             }
-          })
+          });
         }
-      }
-      
-      this.items.push(renderComponent)      
+      };
+
+      this.items.push(renderComponent);
     },
-    dialogOkClick(){
-      this.dataModelToSave.selectedLabels = this.presentLabels.filter((item)=>{
+    dialogOkClick() {
+      this.dataModelToSave.selectedLabels = this.presentLabels.filter(item => {
         return item.checked;
       });
-      console.log("Dialog submitted",this.dataModelToSave.selectedLabels);
+      console.log("Dialog submitted", this.dataModelToSave.selectedLabels);
+    },
+    created: function() {
+      this.initWorks();
     }
   }
 };
@@ -137,15 +138,25 @@ export default {
 }
 
 .custom_label {
-    background: #2196f3;
-    color: #FFF;
-    padding: 7px 15px;
-    border-radius: 20px;
-    margin: 6px;
+  background: #2196f3;
+  color: #fff;
+  padding: 7px 15px;
+  border-radius: 20px;
+  margin: 6px;
 }
 .custom_label_container {
-    display: flex;
-    margin: 8px;
-    flex-flow: wrap;
+  display: flex;
+  margin: 8px;
+  flex-flow: wrap;
+}
+
+.app_textarea {
+  border: none;
+  border-bottom: 1px solid #eaeaea;
+  width: 100% !important;
+}
+
+.app_textarea :focus {
+  border-bottom: 1px solid rgb(87, 125, 253);
 }
 </style>

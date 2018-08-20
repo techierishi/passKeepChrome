@@ -1,9 +1,9 @@
 
 module.exports = {
-  name: 'Vue Extension',
+  name: 'pass-keeper-chrome Extension',
   version: '1.0.0',
-  description: 'Vue.js Chrome Extension Template (wcer)',
-  author: 'yura',
+  description: 'pass-keeper-chrome Chrome Extension',
+  author: 'techierishi',
   manifest_version: 2,
   icons: { '16': 'icons/16.png', '128': 'icons/128.png' },
   permissions: [
@@ -18,7 +18,8 @@ module.exports = {
     'storage',
     'notifications',
     'identity',
-    'identity.email'
+    'identity.email',
+    'webNavigation'
   ],
   browser_action: {
     default_title: 'title',

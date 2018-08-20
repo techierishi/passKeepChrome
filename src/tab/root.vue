@@ -5,7 +5,7 @@
       :headImg="$store.state.headImg" 
       :headBg="$store.state.headBg"
       :menuData="$store.state.menuData" 
-      userName="XivLaw"
+      userName="Chrome"
     ></mt-sidebar>
     <mt-main :title="$route.name">
       <transition name="fade">

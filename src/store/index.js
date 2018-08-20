@@ -12,7 +12,7 @@ const store = new Vuex.Store({
         headBg,
         menuData: {
             0: {
-                name: 'Home AB AB ',
+                name: 'Home',
                 src: '/',
                 icon: 'home',
                 open: false,
@@ -26,20 +26,20 @@ const store = new Vuex.Store({
                 haveChild: false
             },
             2: {
-                name: 'Forms AB AB AB AB ',
+                name: 'Forms',
                 icon: 'collection-text',
                 open: true,
                 childs: {
                     0: {
-                        name: 'Input AB AB AB ',
+                        name: 'Input',
                         src: '/input'
                     },
                     1: {
-                        name: 'Buttons AB AB ',
+                        name: 'Buttons',
                         src: '/buttons'
                     },
                     3: {
-                        name: 'Checkbox/Radio AB AB /AB AB ',
+                        name: 'Checkbox/Radio',
                         src: '/check'
                     }
                 },
