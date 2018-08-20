@@ -54,4 +54,18 @@ CredDao.prototype.getCredential = function (domain) {
     return resultData;
 }
 
+CredDao.prototype.deleteCredential = function (domain) {
+    const savedCredentails = localStore.get("savedCredentails");
+    const resultData = savedCredentails.filter((item, index) => {
+        return item.id.indexOf(domain) === -1;
+    });
+
+    localStore.set(
+        "savedCredentails",
+        resultData
+    );
+
+    return resultData;
+}
+
 export default CredDao;

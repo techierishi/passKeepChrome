@@ -4,6 +4,13 @@ const CredLabels = function () {
     this.defaultLabels = [
         { checked: false, value: "Bank" },
         { checked: false, value: "Email" },
+        { checked: false, value: "Forum" },
+        { checked: false, value: "Q&A" },
+        { checked: false, value: "Tutorial" },
+        { checked: false, value: "Entertainment" },
+        { checked: false, value: "Music" },
+        { checked: false, value: "Videos" },
+        { checked: false, value: "Blog" },
         { checked: false, value: "Social Network" },
         { checked: false, value: "Other" }
     ];

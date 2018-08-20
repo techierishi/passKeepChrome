@@ -19,14 +19,16 @@ module.exports = {
     'notifications',
     'identity',
     'identity.email',
-    'webNavigation'
+    'webNavigation',
+    "webRequest",
+    "webRequestBlocking"
   ],
   browser_action: {
     default_title: 'title',
     default_popup: 'pages/popup.html'
   },
   background: {
-    persistent: false,
+    persistent: true,
     page: 'pages/background.html'
   },
   devtools_page: 'pages/devtools.html',

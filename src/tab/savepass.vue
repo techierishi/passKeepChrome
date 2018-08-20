@@ -96,9 +96,7 @@ export default {
       const newLabel = { checked: false, value: "" + this.labelNameToInsert };
       this.presentLabels.push(newLabel);
     },
-    initWorks(){
-
-    },
+    initWorks() {},
     addLabel() {
       const credLabels = new CredLabels();
       this.presentLabels = credLabels.getAll();
@@ -124,6 +122,7 @@ export default {
         return item.checked;
       });
       console.log("Dialog submitted", this.dataModelToSave.selectedLabels);
+      this.add_label = false;
     },
     created: function() {
       this.initWorks();

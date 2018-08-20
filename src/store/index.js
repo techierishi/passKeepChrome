@@ -26,21 +26,17 @@ const store = new Vuex.Store({
                 haveChild: false
             },
             2: {
-                name: 'Forms',
+                name: 'Other',
                 icon: 'collection-text',
                 open: true,
                 childs: {
                     0: {
-                        name: 'Input',
-                        src: '/input'
+                        name: 'Sync',
+                        src: '/home'
                     },
                     1: {
-                        name: 'Buttons',
-                        src: '/buttons'
-                    },
-                    3: {
-                        name: 'Checkbox/Radio',
-                        src: '/check'
+                        name: 'Settings',
+                        src: '/home'
                     }
                 },
                 haveChild: true

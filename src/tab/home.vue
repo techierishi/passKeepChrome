@@ -34,6 +34,7 @@ import VueJsonPretty from "vue-json-pretty";
 export default {
   data() {
     return {
+      credDao : new CredDao("Password@1"),
       savedCredentails: [],
       credentialDetail: {},
       showDialog: false
@@ -41,21 +42,20 @@ export default {
   },
   methods: {
     showSavedCreds: function() {
-      const credDao = new CredDao();
-      this.savedCredentails = credDao.getAllCredentials();
+      this.savedCredentails = this.credDao.getAllCredentials();
     },
     deleteCred : function(domain){
-
+      this.credDao.deleteCredential(domain);
+      this.savedCredentails = this.credDao.getAllCredentials();
     },
     editCred : function(domain){
 
     },
     showDetail: function(domain) {
-      const credDao = new CredDao("Password@1");
-      const encryptedCredentialDetail = credDao.getCredential(domain);
+      const encryptedCredentialDetail = this.credDao.getCredential(domain);
       console.log("encryptedCredentialDetail", encryptedCredentialDetail);
       this.credentialDetail = JSON.parse(
-        credDao.decryptData(encryptedCredentialDetail[0].value)
+        this.credDao.decryptData(encryptedCredentialDetail[0].value)
       );
 
       this.showDialog = true;
