@@ -32,7 +32,7 @@ const store = new Vuex.Store({
                 childs: {
                     0: {
                         name: 'Sync',
-                        src: '/home'
+                        src: '/sync'
                     },
                     1: {
                         name: 'Settings',

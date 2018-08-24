@@ -2,17 +2,30 @@
     div devtools
 </template>
 <script>
-  export default {
-    data: () => ({
-    }),
-    computed: { },
-    created () { },
-    mounted () { },
-    methods: { }
-  }
+import util from "../ext/util";
+
+export default {
+  data: () => ({}),
+  computed: {},
+  created() {
+    const dropboxAccessToken = util.parseQueryString(window.location.hash)
+      .access_token;
+    console.log("dropboxAccessToken", dropboxAccessToken);
+    chrome.runtime.sendMessage({
+      type: "dropboxConnectToken",
+      content: dropboxAccessToken
+    });
+    window.location.hash = "";
+    if (window.close) {
+      return window.close();
+    }
+  },
+  mounted() {},
+  methods: {}
+};
 </script>
 <style lang="scss">
-  div {
-    color: blue
-  }
+div {
+  color: blue;
+}
 </style>

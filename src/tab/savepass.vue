@@ -64,6 +64,7 @@
 import ReusableInput from "./reusableInput.vue";
 import CredDao from "../ext/credDao";
 import CredLabels from "../ext/credLabels";
+import util from "../ext/util";
 
 export default {
   name: "SavePass",
@@ -80,17 +81,16 @@ export default {
       presentLabels: [],
       items: [],
       add_label: false,
-      labelNameToInsert: ""
+      labelNameToInsert: "",
+      credDao: null
     };
   },
 
   methods: {
     saveData() {
-      const credDao = new CredDao("Password@1");
-
-      const encrypted = credDao.encryptData(this.dataModelToSave);
+      const encrypted = this.credDao.encryptData(this.dataModelToSave);
       console.log("Encrypted :: ", encrypted);
-      credDao.saveCredentail(this.dataModelToSave.domain, encrypted);
+      this.credDao.saveCredentail(this.dataModelToSave.domain, encrypted);
     },
     insertLabel() {
       const newLabel = { checked: false, value: "" + this.labelNameToInsert };
@@ -123,10 +123,12 @@ export default {
       });
       console.log("Dialog submitted", this.dataModelToSave.selectedLabels);
       this.add_label = false;
-    },
-    created: function() {
-      this.initWorks();
     }
+  },
+  created: function() {
+    const _loginObj = util.isAuth();
+    this.credDao = new CredDao(_loginObj.password);
+    this.initWorks();
   }
 };
 </script>
@@ -153,6 +155,9 @@ export default {
   border: none;
   border-bottom: 1px solid #eaeaea;
   width: 100% !important;
+  height: 150px;
+  font-size: 16px;
+  color: #000;
 }
 
 .app_textarea :focus {

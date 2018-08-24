@@ -16,16 +16,16 @@
 </template>
 
 <script>
-  export default {
-    name: 'app'
-  }
+export default {
+  name: "app"
+};
 </script>
 
 <style scoped>
-  .fade-enter-active {
-    transition: opacity 1s;
-  }
-  .fade-enter {
-    opacity: 0;
-  }
+.fade-enter-active {
+  transition: opacity 1s;
+}
+.fade-enter {
+  opacity: 0;
+}
 </style>

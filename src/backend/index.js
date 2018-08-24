@@ -27,7 +27,7 @@ console.log('background !')
         } */
 
         chrome.runtime.sendMessage({
-            msg: "loginPost", 
+            type: "loginPost", 
             data: {
                 formData: formData
             }

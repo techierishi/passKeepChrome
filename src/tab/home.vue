@@ -30,11 +30,12 @@
 <script>
 import CredDao from "../ext/credDao";
 import VueJsonPretty from "vue-json-pretty";
+import util from "../ext/util";
 
 export default {
   data() {
     return {
-      credDao : new CredDao("Password@1"),
+      credDao: null,
       savedCredentails: [],
       credentialDetail: {},
       showDialog: false
@@ -44,13 +45,11 @@ export default {
     showSavedCreds: function() {
       this.savedCredentails = this.credDao.getAllCredentials();
     },
-    deleteCred : function(domain){
+    deleteCred: function(domain) {
       this.credDao.deleteCredential(domain);
       this.savedCredentails = this.credDao.getAllCredentials();
     },
-    editCred : function(domain){
-
-    },
+    editCred: function(domain) {},
     showDetail: function(domain) {
       const encryptedCredentialDetail = this.credDao.getCredential(domain);
       console.log("encryptedCredentialDetail", encryptedCredentialDetail);
@@ -62,6 +61,8 @@ export default {
     }
   },
   created: function() {
+    const _loginObj = util.isAuth();
+    this.credDao = new CredDao(_loginObj.password);
     this.showSavedCreds();
   },
   components: {
