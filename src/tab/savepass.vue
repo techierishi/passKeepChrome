@@ -161,6 +161,10 @@ export default {
 }
 
 .app_textarea :focus {
-  border-bottom: 1px solid rgb(87, 125, 253);
+  border-bottom: 1.5px solid rgb(87, 125, 253) !important;
+}
+
+.app_textarea :active {
+  border-bottom: 1.5px solid rgb(87, 125, 253) !important;
 }
 </style>

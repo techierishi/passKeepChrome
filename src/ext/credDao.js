@@ -41,6 +41,13 @@ CredDao.prototype.saveCredentail = function (domain, encryptedData) {
         savedCredentails
     );
 }
+
+CredDao.prototype.saveAllCredentails = function (importData) {
+    localStore.set(
+        "savedCredentails",
+        importData
+    );
+}
 CredDao.prototype.getAllCredentials = function () {
     const savedCredentails = localStore.get("savedCredentails");
     return savedCredentails;

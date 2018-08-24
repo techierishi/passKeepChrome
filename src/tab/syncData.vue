@@ -27,13 +27,15 @@ import CredDao from "../ext/credDao";
 import VueJsonPretty from "vue-json-pretty";
 import util from "../ext/util";
 import localStore from "../ext/storage";
+import SyncData from "../ext/syncData";
 import { Dropbox } from "dropbox";
 
 export default {
   data() {
     return {
-      dropboxFilePath: "/Apps/passKeeperChrome/credentials.json",
+      dropboxFilePath: "/credentials.json",
       credDao: null,
+      syncData: new SyncData(),
       savedCredentails: [],
       showDialog: false
     };
@@ -42,77 +44,17 @@ export default {
     showSavedCreds: function() {
       this.savedCredentails = this.credDao.getAllCredentials();
     },
-    loginToDropBox() {
-      // Make sure following URL is whitelisted in manifest file
-      const fullReceiverPath =
-        "chrome-extension://bagihhjcblcabpangekfmkbdadpodgkf/pages/panel.html";
-      const APIKEY = "t2lzjdzna6tgnmn";
-      const ACCESS_TOKEN =
-        "csniWClhrH8AAAAAAAAAmvzPhOVc2GbSAbyb6zUIGeqmahdpGwZcH_BOONQEPSaT";
-
-      let dbx = new Dropbox({ clientId: APIKEY });
-      const authToken = "";
-      const authUrl = dbx.getAuthenticationUrl(fullReceiverPath);
-      window.open(authUrl, "_blank");
-    },
     exportData() {
-      const dropboxToken = localStore.get("dropboxToken");
-      if (dropboxToken) {
-        const dbx = new Dropbox({ accessToken: dropboxToken });
-
-        const uploadData = _mode => {
-          dbx
-            .filesUpload({
-              contents: JSON.stringify(this.savedCredentails),
-              path: this.dropboxFilePath,
-              mode: _mode
-            })
-            .then(function(response) {
-              console.log(response);
-            })
-            .catch(function(error) {
-              console.error(error);
-            });
-        };
-
-        dbx
-          .filesDownload({
-            path: this.dropboxFilePath
-          })
-          .then(function(response) {
-            console.log(response);
-            uploadData({ ".tag": "update", update: response.rev });
-          })
-          .catch(function(error) {
-            console.error(error);
-            uploadData({ ".tag": "add" });
-          });
-      } else {
-        this.loginToDropBox();
-      }
+      this.syncData.exportData({
+        savedCredentails: this.savedCredentails
+      });
     },
     importData() {
-      const dropboxToken = localStore.get("dropboxToken");
-      if (dropboxToken) {
-        const dbx = new Dropbox({ accessToken: dropboxToken });
-        dbx
-          .filesDownload({
-            path: this.dropboxFilePath
-          })
-          .then(function(response) {
-            console.log(response);
-            const reader = new FileReader();
-            reader.onload = function() {
-              console.log("Blob to text", reader.result);
-            };
-            reader.readAsText(response.fileBlob);
-          })
-          .catch(function(error) {
-            console.error(error);
-          });
-      } else {
-        this.loginToDropBox();
-      }
+      this.syncData.importData({
+        blobConverted: resultText => {
+          this.credDao.saveAllCredentails(JSON.parse(resultText));
+        }
+      });
     }
   },
   created: function() {
