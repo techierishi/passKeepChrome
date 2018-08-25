@@ -135,12 +135,19 @@ export default {
       // window.prompt("Copy to clipboard: Ctrl+C, Enter", textToCopy);
       console.log("copyToClipboard", textToCopy);
 
-      chrome.tabs.query({ currentWindow: true, active: true }, function(tabs) {
-        var activeTab = tabs[0];
-        chrome.tabs.sendMessage(activeTab.id, {
-          message: "credentialCopied",
-          copiedText: "" + textToCopy
-        });
+      chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
+        chrome.tabs.sendMessage(
+          tabs[0].id,
+          {
+            type: "credentialCopied",
+            data: {
+              copiedText: "" + textToCopy
+            }
+          },
+          response => {
+            console.log(" popup ", response);
+          }
+        );
       });
     }
   }
@@ -164,8 +171,8 @@ export default {
 }
 
 .popupOptionBttn :active {
-    background: #eee !important;
-    color: #FFF !important;
+  background: #eee !important;
+  color: #fff !important;
 }
 .search_area {
   margin-top: 5px;
@@ -195,14 +202,14 @@ export default {
 }
 
 .loginInput {
-    width: 98%;
-    margin: 1%;
+  width: 98%;
+  margin: 1%;
 }
 
 .loginBttn {
-    width: 98%;
-    height: 30px;
-    margin: 1%;
+  width: 98%;
+  height: 30px;
+  margin: 1%;
 }
 
 .searchText {
